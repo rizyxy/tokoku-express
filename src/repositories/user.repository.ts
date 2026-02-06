@@ -2,11 +2,11 @@ import { User } from "../../generated/prisma/client";
 import { prisma } from "../lib/prisma";
 
 const UserRepository = {
-    async create(email: string, password: string): Promise<User> {
+    async create(email: string, hashedPassword: string): Promise<User> {
         const user = await prisma.user.create({
             data: {
                 email,
-                password,
+                password: hashedPassword,
             },
         });
 
