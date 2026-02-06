@@ -1,6 +1,7 @@
 import express from "express";
 import AuthRouter from "./routes/auth.route";
 import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
+import ProductRouter from "./routes/product.route";
 
 const app = express();
 app.use(express.json());
@@ -10,6 +11,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", AuthRouter);
+
+app.use("/products", ProductRouter);
 
 app.use(errorHandlerMiddleware);
 
