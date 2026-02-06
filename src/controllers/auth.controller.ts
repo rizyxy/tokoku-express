@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { LoginSchema, RegisterSchema } from "../schema/auth.schema";
 import AuthService from "../services/auth.service";
 import { AppError } from "../middleware/error-handler.middleware";
+import { AuthenticatedRequest } from "../middleware/is-authenticated.middleware";
+import JwtService from "../services/jwt.service";
 
 const AuthController = {
     async register(req: Request, res: Response) {
@@ -33,6 +35,21 @@ const AuthController = {
 
         return res.status(200).json({
             message: "User logged in successfully",
+            data: tokenPair
+        });
+    },
+
+    async refreshToken(req: AuthenticatedRequest, res: Response) {
+        const refreshToken = req.headers.authorization;
+
+        if (!refreshToken) {
+            throw new AppError("Refresh token is required", 400);
+        }
+
+        const tokenPair = await JwtService.refreshToken(refreshToken);
+
+        return res.status(200).json({
+            message: "Token refreshed successfully",
             data: tokenPair
         });
     }
