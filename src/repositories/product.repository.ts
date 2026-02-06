@@ -56,6 +56,19 @@ const ProductRepository = {
             },
             data
         });
+    },
+
+    /**
+     * Delete one product
+     * @param id string
+     * @returns Promise<Product>
+     */
+    async deleteById(id: string) {
+        return prisma.product.delete({
+            where: {
+                id
+            }
+        });
     }
 }
 

@@ -80,6 +80,27 @@ const ProductController = {
 
         // Send response
         res.json(product);
+    },
+
+    /**
+     * Delete one product
+     * @param req 
+     * @param res 
+     */
+    async deleteOne(req: Request, res: Response) {
+        // Get id from params
+        const { id } = req.params;
+
+        // Validate id
+        if (typeof id !== "string" || !id) {
+            throw new Error("Invalid product id");
+        }
+
+        // Delete product
+        await ProductService.deleteProduct(id);
+
+        // Send response
+        res.json({ message: "Product deleted successfully" });
     }
 }
 

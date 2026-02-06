@@ -52,6 +52,21 @@ const ProductService = {
         }
 
         return ProductRepository.update(id, data);
+    },
+
+    /**
+     * Delete one product
+     * @param id string
+     * @returns void
+     * @throws Error if an error occurred while deleting the product
+     */
+    async deleteProduct(id: string) {
+        try {
+            await ProductRepository.deleteById(id);
+        } catch (error) {
+            throw new Error("An error occurred while deleting the product");
+        }
+
     }
 }
 
