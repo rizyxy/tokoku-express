@@ -29,6 +29,16 @@ const OrderService = {
             order,
             invoice
         };
+    },
+
+    /**
+     * Find many orders by user id
+     * @param userId string
+     * @param offset number
+     * @returns Promise<Order[]>
+     */
+    async findManyOrderByUserId(userId: string, offset: number) {
+        return OrderRepository.findManyByUserId(userId, offset);
     }
 
 }

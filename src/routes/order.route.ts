@@ -8,4 +8,6 @@ OrderRouter.use(isAuthenticated);
 
 OrderRouter.post("/create", OrderController.createOrder);
 
+OrderRouter.get("/", OrderController.findManyOrderByUserId);
+
 export default OrderRouter;

@@ -23,6 +23,22 @@ const OrderController = {
             success: true,
             data: result
         });
+    },
+
+    /**
+     * Find many orders by user id
+     * @param req AuthenticatedRequest
+     * @param res Response
+     */
+    async findManyOrderByUserId(req: AuthenticatedRequest, res: Response) {
+        const offset = parseInt(req.query.offset as string) || 0;
+
+        const result = await OrderService.findManyOrderByUserId(req.user!.userId, offset);
+
+        return res.status(200).json({
+            success: true,
+            data: result
+        });
     }
 
 }
