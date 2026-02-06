@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { AppError } from "../middleware/error-handler.middleware";
 
 const JwtService = {
     issueTokenPair(userId: string) {
@@ -33,7 +34,11 @@ const JwtService = {
             throw new Error("JWT_SECRET_KEY is not defined");
         }
 
-        return jwt.verify(token, process.env.JWT_SECRET_KEY!);
+        try {
+            return jwt.verify(token, process.env.JWT_SECRET_KEY!);
+        } catch (error) {
+            throw new AppError("Unauthorized", 401);
+        }
     },
 }
 
