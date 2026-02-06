@@ -8,7 +8,7 @@ const ProductService = {
      * @param offset number
      * @returns Promise<Product[]>
      */
-    async findMany({ offset }: { offset: number }): Promise<Product[]> {
+    async findManyProducts({ offset }: { offset: number }): Promise<Product[]> {
         return ProductRepository.findMany({ offset });
     },
 
@@ -18,7 +18,7 @@ const ProductService = {
      * @returns Promise<Product | null>
      * @throws Error if product not found
      */
-    async findById(id: string): Promise<Product | null> {
+    async findProductById(id: string): Promise<Product | null> {
         const product = await ProductRepository.findById(id);
 
         if (!product) {

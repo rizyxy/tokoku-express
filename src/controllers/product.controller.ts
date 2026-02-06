@@ -14,7 +14,7 @@ const ProductController = {
         const offset = Number(req.query.offset) || 0;
 
         // Get products from service
-        const products = await ProductService.findMany({ offset });
+        const products = await ProductService.findManyProducts({ offset });
 
         // Send response
         res.json(products);
@@ -35,7 +35,7 @@ const ProductController = {
         }
 
         // Get product from service
-        const product = await ProductService.findById(id);
+        const product = await ProductService.findProductById(id);
 
         // Send response
         res.json(product);
