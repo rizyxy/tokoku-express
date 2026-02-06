@@ -1,5 +1,6 @@
 import { Product } from "../../generated/prisma/browser";
 import ProductRepository from "../repositories/product.repository";
+import { CreateProductRequest } from "../schema/product.schema";
 
 const ProductService = {
     /**
@@ -25,6 +26,15 @@ const ProductService = {
         }
 
         return product;
+    },
+
+    /**
+     * Create one product
+     * @param data Product
+     * @returns Promise<Product>
+     */
+    async createOneProduct(request: CreateProductRequest): Promise<Product> {
+        return ProductRepository.create(request);
     }
 }
 

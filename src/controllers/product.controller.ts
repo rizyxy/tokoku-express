@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import ProductService from "../services/product.service";
+import { CreateProductSchema } from "../schema/product.schema";
 
 const ProductController = {
     /**
@@ -35,6 +36,26 @@ const ProductController = {
 
         // Get product from service
         const product = await ProductService.findById(id);
+
+        // Send response
+        res.json(product);
+    },
+
+    /**
+     * Create one product
+     * @param req 
+     * @param res 
+     */
+    async create(req: Request, res: Response) {
+
+        const request = CreateProductSchema.safeParse(req.body);
+
+        if (!request.success) {
+            throw new Error("Invalid product data");
+        }
+
+        // Create product
+        const product = await ProductService.createOneProduct(request.data);
 
         // Send response
         res.json(product);
