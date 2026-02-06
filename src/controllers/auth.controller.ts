@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { LoginSchema, RegisterSchema } from "../schema/auth.schema";
 import AuthService from "../services/auth.service";
 import { AppError } from "../middleware/error-handler.middleware";
-import { AuthenticatedRequest } from "../middleware/is-authenticated.middleware";
 import JwtService from "../services/jwt.service";
 
 const AuthController = {
@@ -39,7 +38,7 @@ const AuthController = {
         });
     },
 
-    async refreshToken(req: AuthenticatedRequest, res: Response) {
+    async refreshToken(req: Request, res: Response) {
         const refreshToken = req.headers.authorization;
 
         if (!refreshToken) {
