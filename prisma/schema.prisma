@@ -25,3 +25,13 @@ model User {
 
   role Role @default(USER)
 }
+
+model Product {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
