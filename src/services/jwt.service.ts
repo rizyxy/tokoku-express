@@ -1,5 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { AppError } from "../middleware/error-handler.middleware";
+import { Role } from "../../generated/prisma/enums";
 
 export enum TokenType {
     ACCESS = "access",
@@ -12,12 +13,12 @@ const JwtService = {
      * @param userId User ID
      * @returns Access and refresh tokens
      */
-    issueTokenPair(userId: string): { accessToken: string; refreshToken: string } {
+    issueTokenPair(userId: string, role: Role): { accessToken: string; refreshToken: string } {
         // Issue access token
-        const accessToken = this.issueAccessToken(userId);
+        const accessToken = this.issueAccessToken(userId, role);
 
         // Issue refresh token
-        const refreshToken = this.issueRefreshToken(userId);
+        const refreshToken = this.issueRefreshToken(userId, role);
 
         return { accessToken, refreshToken };
     },
@@ -27,14 +28,14 @@ const JwtService = {
      * @param userId User ID
      * @returns Access token
      */
-    issueAccessToken(userId: string): string {
+    issueAccessToken(userId: string, role: Role): string {
         // Check if JWT secret key is defined
         if (!process.env.JWT_SECRET_KEY) {
             throw new Error("JWT_SECRET_KEY is not defined");
         }
 
         // Issue access token
-        return jwt.sign({ userId, type: TokenType.ACCESS }, process.env.JWT_SECRET_KEY, {
+        return jwt.sign({ userId, role, type: TokenType.ACCESS }, process.env.JWT_SECRET_KEY, {
             expiresIn: "15m",
         });
     },
@@ -44,14 +45,14 @@ const JwtService = {
      * @param userId User ID
      * @returns Refresh token
      */
-    issueRefreshToken(userId: string): string {
+    issueRefreshToken(userId: string, role: Role): string {
         // Check if JWT secret key is defined
         if (!process.env.JWT_SECRET_KEY) {
             throw new Error("JWT_SECRET_KEY is not defined");
         }
 
         // Issue refresh token
-        return jwt.sign({ userId, type: TokenType.REFRESH }, process.env.JWT_SECRET_KEY!, {
+        return jwt.sign({ userId, role, type: TokenType.REFRESH }, process.env.JWT_SECRET_KEY!, {
             expiresIn: "7d",
         });
     },
@@ -90,10 +91,10 @@ const JwtService = {
         }
 
         // Get user ID from decoded token
-        const { userId } = decodedToken;
+        const { userId, role } = decodedToken;
 
         // Issue new token pair
-        const tokenPair = this.issueTokenPair(userId);
+        const tokenPair = this.issueTokenPair(userId, role);
 
         return tokenPair;
     }

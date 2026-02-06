@@ -46,7 +46,7 @@ const AuthService = {
         }
 
         // Issue Access and Refresh Token
-        const tokenPair = JwtService.issueTokenPair(user.id);
+        const tokenPair = JwtService.issueTokenPair(user.id, user.role);
 
 
         return tokenPair;
