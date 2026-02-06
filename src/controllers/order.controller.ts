@@ -1,0 +1,30 @@
+import { AuthenticatedRequest } from "../middleware/is-authenticated.middleware";
+import { Response } from "express";
+import { CreateOrderSchema } from "../schema/order.schema";
+import { AppError } from "../middleware/error-handler.middleware";
+import OrderService from "../services/order.service";
+
+const OrderController = {
+    /**
+     * Create order
+     * @param req AuthenticatedRequest
+     * @param res Response
+     */
+    async createOrder(req: AuthenticatedRequest, res: Response) {
+        const request = CreateOrderSchema.safeParse(req.body);
+
+        if (!request.success) {
+            throw new AppError("Invalid request", 400);
+        }
+
+        const result = await OrderService.createOrder(request.data, req.user!.userId);
+
+        return res.status(201).json({
+            success: true,
+            data: result
+        });
+    }
+
+}
+
+export default OrderController;

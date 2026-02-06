@@ -15,3 +15,4 @@ export const UpdateProductSchema = z.object({
 });
 
 export type UpdateProductRequest = z.infer<typeof UpdateProductSchema>;
+

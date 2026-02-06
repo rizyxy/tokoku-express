@@ -33,6 +33,21 @@ const ProductRepository = {
     },
 
     /**
+     * Find many products by ids
+     * @param ids string[]
+     * @returns Promise<Product[]>
+     */
+    async findByIds(ids: string[]) {
+        return prisma.product.findMany({
+            where: {
+                id: {
+                    in: ids
+                }
+            }
+        });
+    },
+
+    /**
      * Create one product
      * @param data CreateProductRequest
      * @returns Promise<Product>
