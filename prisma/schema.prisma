@@ -38,25 +38,6 @@ model Product {
   orderDetails OrderDetail[]
 }
 
-enum InvoiceStatus {
-  PENDING
-  PAID
-  EXPIRED
-}
-
-model Invoice {
-  id String @id @default(uuid())
-
-  amount Float
-
-  status InvoiceStatus @default(PENDING)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  order Order?
-}
-
 enum OrderStatus {
   PENDING
   DELIVERED
@@ -66,9 +47,6 @@ enum OrderStatus {
 model Order {
   id String @id @default(uuid())
 
-  invoiceId String  @unique
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
-
   status    OrderStatus @default(PENDING)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -76,8 +54,9 @@ model Order {
   orderDetails         OrderDetail[]
   orderStatusHistories OrderStatusHistory[]
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
+  invoice Invoice?
 }
 
 model OrderDetail {
@@ -105,4 +84,24 @@ model OrderStatusHistory {
   description String?
 
   createdAt DateTime @default(now())
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  EXPIRED
+}
+
+model Invoice {
+  id String @id @default(uuid())
+
+  amount Float
+
+  status InvoiceStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @unique
 }
