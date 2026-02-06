@@ -3,9 +3,15 @@ import UserRepository from "../repositories/user.repository";
 import { AppError } from "../middleware/error-handler.middleware";
 import bcrypt from "bcrypt"
 import JwtService from "./jwt.service";
+import { User } from "../../generated/prisma/browser";
 
 const AuthService = {
-    async register(request: RegisterRequest) {
+    /**
+     * Register a new user
+     * @param request Register request
+     * @returns User object
+     */
+    async register(request: RegisterRequest): Promise<User> {
 
         // Check if user already exists
         if (await UserRepository.findByEmail(request.email)) {
@@ -21,7 +27,12 @@ const AuthService = {
         return user;
     },
 
-    async login(request: LoginRequest) {
+    /**
+     * Login a user
+     * @param request Login request
+     * @returns Access and Refresh Token
+     */
+    async login(request: LoginRequest): Promise<{ accessToken: string; refreshToken: string }> {
         // Check if user exists
         const user = await UserRepository.findByEmail(request.email);
         if (!user) {
@@ -36,6 +47,7 @@ const AuthService = {
 
         // Issue Access and Refresh Token
         const tokenPair = JwtService.issueTokenPair(user.id);
+
 
         return tokenPair;
     },
