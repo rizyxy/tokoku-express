@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { RegisterSchema } from "../schema/auth.schema";
+import { LoginSchema, RegisterSchema } from "../schema/auth.schema";
 import AuthService from "../services/auth.service";
 import { AppError } from "../middleware/error-handler.middleware";
 
@@ -19,6 +19,21 @@ const AuthController = {
                 id: user.id,
                 email: user.email,
             },
+        });
+    },
+
+    async login(req: Request, res: Response) {
+        const request = LoginSchema.safeParse(req.body);
+
+        if (!request.success) {
+            throw new AppError("Invalid request", 400);
+        }
+
+        const tokenPair = await AuthService.login(request.data);
+
+        return res.status(200).json({
+            message: "User logged in successfully",
+            data: tokenPair
         });
     }
 }
