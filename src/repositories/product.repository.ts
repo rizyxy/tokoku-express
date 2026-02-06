@@ -1,7 +1,7 @@
 import { Product } from "../../generated/prisma/browser";
 import { DEFAULT_LIMIT } from "../lib/const";
 import { prisma } from "../lib/prisma";
-import { CreateProductRequest } from "../schema/product.schema";
+import { CreateProductRequest, UpdateProductRequest } from "../schema/product.schema";
 
 const ProductRepository = {
     /**
@@ -39,6 +39,21 @@ const ProductRepository = {
      */
     async create(data: CreateProductRequest) {
         return prisma.product.create({
+            data
+        });
+    },
+
+    /**
+     * Update one product
+     * @param id string
+     * @param data CreateProductRequest
+     * @returns Promise<Product>
+     */
+    async update(id: string, data: UpdateProductRequest) {
+        return prisma.product.update({
+            where: {
+                id
+            },
             data
         });
     }

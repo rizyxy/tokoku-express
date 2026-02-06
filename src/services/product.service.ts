@@ -1,6 +1,6 @@
 import { Product } from "../../generated/prisma/browser";
 import ProductRepository from "../repositories/product.repository";
-import { CreateProductRequest } from "../schema/product.schema";
+import { CreateProductRequest, UpdateProductRequest } from "../schema/product.schema";
 
 const ProductService = {
     /**
@@ -35,6 +35,23 @@ const ProductService = {
      */
     async createOneProduct(request: CreateProductRequest): Promise<Product> {
         return ProductRepository.create(request);
+    },
+
+    /**
+     * Update one product
+     * @param id string
+     * @param data UpdateProductRequest
+     * @returns Promise<Product>
+     * @throws Error if product not found
+     */
+    async updateProduct(id: string, data: UpdateProductRequest): Promise<Product> {
+        const product = await ProductRepository.findById(id);
+
+        if (!product) {
+            throw new Error("Product not found");
+        }
+
+        return ProductRepository.update(id, data);
     }
 }
 

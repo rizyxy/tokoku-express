@@ -59,6 +59,27 @@ const ProductController = {
 
         // Send response
         res.json(product);
+    },
+
+    /**
+     * Update one product
+     * @param req 
+     * @param res 
+     */
+    async update(req: Request, res: Response) {
+        // Get id from params
+        const { id } = req.params;
+
+        // Validate id
+        if (typeof id !== "string" || !id) {
+            throw new Error("Invalid product id");
+        }
+
+        // Get product from service
+        const product = await ProductService.updateProduct(id, req.body);
+
+        // Send response
+        res.json(product);
     }
 }
 

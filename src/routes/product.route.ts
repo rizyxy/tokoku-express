@@ -13,4 +13,6 @@ ProductRouter.use(isAdminMiddleware);
 
 ProductRouter.post("/create", ProductController.create);
 
+ProductRouter.put("/:id/update", ProductController.update);
+
 export default ProductRouter;
