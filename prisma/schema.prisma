@@ -32,6 +32,73 @@ model Product {
   description String?
   price       Float
 
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  orderDetails OrderDetail[]
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  EXPIRED
+}
+
+model Invoice {
+  id String @id @default(uuid())
+
+  amount Float
+
+  status InvoiceStatus @default(PENDING)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  order Order?
+}
+
+enum OrderStatus {
+  PENDING
+  DELIVERED
+  CANCELED
+}
+
+model Order {
+  id String @id @default(uuid())
+
+  invoiceId String  @unique
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+
+  status    OrderStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  orderDetails         OrderDetail[]
+  orderStatusHistories OrderStatusHistory[]
+}
+
+model OrderDetail {
+  id String @id @default(uuid())
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  quantity Int
+
+  productName String
+  unitPrice   Float
+}
+
+model OrderStatusHistory {
+  id String @id @default(uuid())
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  status      OrderStatus @default(PENDING)
+  description String?
+
+  createdAt DateTime @default(now())
 }
