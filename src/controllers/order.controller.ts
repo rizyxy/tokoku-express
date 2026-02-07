@@ -39,6 +39,27 @@ const OrderController = {
             success: true,
             data: result
         });
+    },
+
+    /**
+     * Find one order by id
+     * @param req AuthenticatedRequest
+     * @param res Response
+     */
+    async findOneById(req: AuthenticatedRequest, res: Response) {
+
+        const { id } = req.params;
+
+        const result = await OrderService.findOneById(id as string);
+
+        if (!result) {
+            throw new AppError("Order not found", 404);
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: result
+        });
     }
 
 }

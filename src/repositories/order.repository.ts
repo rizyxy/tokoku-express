@@ -49,6 +49,23 @@ const OrderRepository = {
                 orderDetails: true
             }
         });
+    },
+
+    /**
+     * Find one order by id
+     * @param id string
+     * @returns Promise<Order | null>
+     */
+    async findOneById(id: string) {
+        return prisma.order.findUnique({
+            where: {
+                id
+            },
+            include: {
+                invoice: true,
+                orderDetails: true
+            }
+        });
     }
 }
 

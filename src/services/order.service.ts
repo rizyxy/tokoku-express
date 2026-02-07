@@ -39,6 +39,15 @@ const OrderService = {
      */
     async findManyOrderByUserId(userId: string, offset: number) {
         return OrderRepository.findManyByUserId(userId, offset);
+    },
+
+    /**
+     * Find one order by id
+     * @param id string
+     * @returns Promise<Order | null>
+     */
+    async findOneById(id: string) {
+        return OrderRepository.findOneById(id);
     }
 
 }

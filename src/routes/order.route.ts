@@ -10,4 +10,6 @@ OrderRouter.post("/create", OrderController.createOrder);
 
 OrderRouter.get("/", OrderController.findManyOrderByUserId);
 
+OrderRouter.get("/:id", OrderController.findOneById);
+
 export default OrderRouter;

@@ -72,7 +72,7 @@ const JwtService = {
         try {
             return jwt.verify(token, process.env.JWT_SECRET_KEY!) as JwtPayload;
         } catch (error) {
-            throw new AppError("Unauthorized", 401);
+            throw new AppError("Invalid token", 401);
         }
     },
 
