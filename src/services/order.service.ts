@@ -2,6 +2,7 @@ import InvoiceRepository from "../repositories/invoice.repository";
 import OrderRepository from "../repositories/order.repository";
 import { CreateOrderRequest } from "../schema/order.schema";
 import CartService from "./cart.service";
+import XenditService from "./xendit.service";
 
 const OrderService = {
     /**
@@ -25,9 +26,14 @@ const OrderService = {
         // Create Invoice
         const invoice = await InvoiceRepository.create(order.id, amount);
 
+        // Create Xendit Invoice
+        const xenditInvoice = await XenditService
+            .createXenditInvoice(invoice.id, amount);
+
         return {
             order,
-            invoice
+            invoice,
+            xenditInvoice
         };
     },
 

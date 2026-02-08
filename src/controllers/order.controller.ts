@@ -21,7 +21,7 @@ const OrderController = {
 
         return res.status(201).json({
             success: true,
-            data: result
+            order: result
         });
     },
 
