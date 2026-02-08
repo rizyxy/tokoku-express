@@ -54,7 +54,7 @@ const OrderService = {
      */
     async findOneById(id: string) {
         return OrderRepository.findOneById(id);
-    }
+    },
 
 }
 

@@ -3,6 +3,7 @@ import AuthRouter from "./routes/auth.route";
 import { errorHandlerMiddleware } from "./middleware/error-handler.middleware";
 import ProductRouter from "./routes/product.route";
 import OrderRouter from "./routes/order.route";
+import XenditRouter from "./routes/xendit.route";
 
 const app = express();
 app.use(express.json());
@@ -16,6 +17,8 @@ app.use("/auth", AuthRouter);
 app.use("/products", ProductRouter);
 
 app.use("/orders", OrderRouter);
+
+app.use("/webhooks/xendit", XenditRouter);
 
 app.use(errorHandlerMiddleware);
 
